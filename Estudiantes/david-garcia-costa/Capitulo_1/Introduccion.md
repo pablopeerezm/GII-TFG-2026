@@ -1,33 +1,25 @@
 # Introducción
 
-El presente Trabajo de Fin de Grado consiste en la aplicación de agentes de Inteligencia Artifical dentro de la parte de testing de QA en la empresa CIC Consulting Informático. 
+## Motivación
 
-El trabajo surge a partir de una necesidad en el contexto de QA de CIC, donde una parte del esfuerzo de los ingenieros de QA se concetra en interpretar documentación funcional y técnica, en crear planes de prueba y eso requiere mucho tiempo y experiencia.
+En este Trabajo de Fin de Grado se propone realizar un diseño e implementar un sistema de agentes de Inteligencia Artificial orientado a mejorar el proceso de testing de QA de CIC Consulting Informático. 
 
-El TFG por tanto plantea el diseño de una solución que esta orientada a automatizar una parte concreta del flujo de trabajo de QA, esta solución se apoya en un sistema multiagente desarrollado con Google ADK.
+La motivación que lleva a realizar este trabajo sale de una necesidad por parte de CIC.
 
-## Contexto general de la calidad del software
-La calidad de software es esencial a la hora de desarrollar, ya que tiene una relación directa con el producto del cliente, la experiencia del usuario, con el mantenimiento y con la confianza de los clientes. Desarrollar software de mala calidad puede generar incidencias, retrasos, costes y problemas que afectan a la empresa y a los desarrolladores.
+ Actualmente, el esfuerzo de los ingenieros de QA esta en hacer tareas de elevada carga; como puede ser la interpretación de documentación (Documentos de Requisitos Funcionales y Documentos de Diseño del Sistema), el análisis de los requisitos funcionales y casos de uso que contienen dichos documentos, la redacción manual de planes de prueba dentro de un excel, en KiwiTCMS ahora mismo solo hay unos cuantos ejemplos de los scenarios en lenguaje Gherkin y estan dentro de una carpeta de VSCode donde trabaja el ingeniero, no estan en ninguna API. Estas actividades requieren considerable inversión de tiempo y conocimiento especializado, lo que limita la escalabilidad del proceso y genera dependencia del expertise individual del equipo.
 
-La calidad del software no se limita a que una app funcione, sino que se haga de manera correcta y alineada con los requisitos y casos de uso definidos previamente. 
-Entonces, el asegurar la calidad o QA (Quality Assurance), representa el conjunto de procesos, prácticas y mecanismos que garantizan que el software se desarrolla y se valida en base a unos estándares definidos. Este previene defectos, da fiabilidad y evidencia que el sistema cumple con la calidad esperada, es decir, es una capa de control y de mejora continua.
+## Problemática Identificada
 
-## Papel del testing
-El testing constituye una de las actividades más relevantes dentro de QA. La función principal del mismo es diseñar, ejecutar y evaluar pruebas con el fin de comprobar si un sistema se comporta según lo esperado. A través del testing se validan requisitos, se detectan defectos antes de la puesta en producción y da la confianza sobre el estado del producto.
+En términos más especificos, se puede decir que el flujo de trabajo actual en CIC presenta las siguientes limitaciones:
 
-Podemos decir que el testing tradicional tiene ciertas limitaciones, muchas veces el proceso depende de un esfuerzo manual considerable para interpretar documentación, diseñar casos de prueba, ejecutar validaciones y registrar incidencias, lo que incrementa el tiempo necesario y la carga operativa del equipo. La repetición de tareas similares y depender del conocimiento del ingeniero de QA dificultan la escalabilidad del proceso y pueden limitar tanto la cobertura como la capacidad de adaptación ante nuevas necesidades del proyecto.
+- **Dependencia del análisis manual**
+- **Falta de automatización en fase preparatoria**
+- **Escalabilidad limitada**
 
-## Contexto empresarial de CIC Consulting Informático
-CIC Consulting Informático es una empresa de ingeniería y desarrollo de proyectos de informática y comunicaciones.
-En el proceso actual de QA en CIC, el trabajo comienza con una reunión por parte del cliente con el Project Manager, en esa reunión se recogen los requisitos del producto y los casos de uso que debería tener; esto se plasma sobre documentación, en este caso utilizan DRF (Documentos Requisitos Funcionales) y DDS (Documento Diseño Sistema). 
+## Propuesta de Solución
 
-A partir de esta información, el ingeniero de QA define planes de prueba que actualmente están en un Excel y algunos de ellos en una carpeta dentro de VSCode con estructuras Gherkin, ejecuta las pruebas end-to-end y documenta incidencias o resultados en las herramientas correspondientes.
+Para resolver este problema, el presente trabajo propone el diseño de una arquitectura basada en agentes de Inteligencia Artificial, utilizando Google ADK con un modelo de OpenAI, que permita automatizar la generación de casos de prueba a partir de la documentación existente. 
 
-Este flujo de trabajo se apoya en herramientas ya existentes detalladas en la foto que se presenta a continuación y en la experiencia del personal de QA, pero mantiene una importante dependencia del análisis manual y de la intervención directa del ingeniero. 
+La solución se estructura en torno a un sistema multiagente especializado que se detallarán durante la solución, en el cual cada agente asume un rol específico dentro del flujo de trabajo.
 
-![Flujo QA Actual](../Capitulo_1//fotos/FlujoQA_Actual.svg)
-
- 
-Por lo que para el ingeniero de QA supone un gran esfuerzo interpretar correctamente la documentación de entrada y traducirla a elementos útiles para validar el producto.
-
-**En consecuencia**, el trabajo se centra en estudiar cómo una arquitectura basada en agentes de Inteligencia Artificial puede analizar documentos DRF y DDS, extraer información funcional relevante (requisitos funcionales y casos de uso), transformarlo a escenarios Gherkin y registrar los scenarios (given, and, when, then) en planes de prueba en Kiwi TCMS a través de su API. 
+Esta arquitectura aprovecha las capacidades de los agentes de IA no solo para ejecutar tareas repetitivas, sino también para interpretar y analizar la documentación por parte de los Project Managers y Clientes, estructurar la información y tomar decisiones en un proceso colaborativo orientado a un objetivo común.
