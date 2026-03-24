@@ -1,0 +1,30 @@
+@startuml DdC
+
+hide circle
+hide empty members
+
+class Cliente
+class Tecnico
+
+class Correo
+class Intencion
+class Peticion
+class Respuesta
+
+class AplicacionInterna
+
+Cliente -- Correo : envia
+Tecnico -- Correo : analiza
+
+Correo -- Intencion : contiene
+Correo -- Peticion : contiene
+
+Tecnico -- Peticion : interpreta
+
+Tecnico -- AplicacionInterna : Consulta
+
+Respuesta -- Cliente : recibe
+
+Tecnico -- Respuesta : genera
+
+@enduml
