@@ -7,12 +7,12 @@ skinparam ActivityBorderColor #1E2840
 skinparam ActivityBackgroundColor #141824
 skinparam ActivityDiamondBackgroundColor #0D1018
 skinparam ActivityDiamondBorderColor #38BDF8
-
+skinparam NoteFontColor #07090F
 title CU-03 · Consultar Panel Manager
 
 start
 
-:<<include>> CU-01 (JWT válido);
+:CU-01 (JWT válido);
 :Actor navega a **/manager**;
 
 :Actor puede filtrar por **departamento** (select);

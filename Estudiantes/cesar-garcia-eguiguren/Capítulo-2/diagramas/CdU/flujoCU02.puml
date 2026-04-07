@@ -12,7 +12,7 @@ title CU-02 · Visualizar Overview del Sistema
 
 start
 
-:<<include>> CU-01 (JWT válido);
+:CU-01 (JWT válido);
 
 fork
   :GET /dashboards/overview;
