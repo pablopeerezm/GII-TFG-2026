@@ -1,0 +1,16 @@
+@startuml DdC
+
+top to bottom direction
+
+rectangle Cliente
+rectangle Sistema
+rectangle Tecnico
+
+Cliente --> Sistema : Enviar solicitud
+Sistema --> Cliente : Recibir respuesta
+Cliente --> Sistema : Completar formulario
+
+Tecnico --> Sistema : Ver solicitudes pendientes
+Tecnico --> Sistema : Actualizar estado
+
+@enduml

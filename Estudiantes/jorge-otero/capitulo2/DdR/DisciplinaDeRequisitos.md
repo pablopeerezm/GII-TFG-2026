@@ -17,6 +17,10 @@ El funcionamiento del sistema sigue una estructura cíclica, en la que, tras la 
 |![CdU_Cliente](./CdU/CdU_Cliente/imagen/CdU_Cliente.png)|![CdU_Tecnico](./CdU/CdU_Tecnico/imagen/CdU_Tecnico.png)|
 |[Ver código](./CdU/CdU_Cliente/codigo/CdU_Cliente.puml)|[Ver código](./CdU/CdU_Tecnico/codigo/CdU_Tecnico.puml)|
 
-## Diagrama de Contexto por Actor
+## Diagrama de Contexto
 
-### Diagrama de Contexto del Cliente    
+### Diagrama de Contexto   
+
+| Diagrama | Código |
+|---------|---------|
+|![Diagrama de Contexto](./DdC/imagen/DdC.png)|[Ver código](./DdC/codigo/DdC.puml)|

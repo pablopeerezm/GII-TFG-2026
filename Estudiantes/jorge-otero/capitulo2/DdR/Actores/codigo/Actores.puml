@@ -10,7 +10,7 @@ Cliente -right-> Tecnico : envia solicitud
 note right of Cliente
 **Cliente**:
 Inicia el ciclo mediante solicitudes
-y recibe respuestas del tecnico.
+y recibe respuestas
 end note
 
 note right of Tecnico
