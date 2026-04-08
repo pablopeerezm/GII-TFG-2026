@@ -129,6 +129,7 @@ Se utiliza para describir fallos de entrada, validacion, procesamiento o almacen
 ### Borrador
 
 Version preliminar de un artefacto generado por el sistema que aun no ha sido aprobada ni publicada.
+Representa un estado intermedio en el que el contenido puede revisarse, corregirse y enriquecerse con feedback antes de derivar un caso de prueba o descartarse.
 En el capitulo 2 se utiliza especialmente para los escenarios Gherkin pendientes de revision.
 
 ### Feedback
@@ -151,4 +152,3 @@ Puede utilizarse como fuente para extraer casos de uso, requisitos funcionales o
 
 Elemento de informacion gestionado por el sistema dentro del flujo de analisis, generacion y publicacion.
 Incluye documentos de entrada, resultados de extraccion, escenarios borrador y casos publicados.
-
