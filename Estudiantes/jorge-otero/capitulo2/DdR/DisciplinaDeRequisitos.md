@@ -24,3 +24,16 @@ El funcionamiento del sistema sigue una estructura cíclica, en la que, tras la 
 | Diagrama | Código |
 |---------|---------|
 |![Diagrama de Contexto](./DdC/imagen/DdC.png)|[Ver código](./DdC/codigo/DdC.puml)|
+
+## Priorizar Casos de Uso 
+
+| Caso de uso                | Prioridad | Justificación                                                                              |
+| -------------------------- | --------- | ------------------------------------------------------------------------------------------ |
+| Enviar solicitud           | Alta      | Es el punto de entrada del sistema y condición necesaria para el resto de funcionalidades. |
+| Recibir respuesta          | Alta      | Constituye la finalidad principal del sistema: proporcionar respuesta al cliente.          |
+| Ver solicitudes pendientes | Media     | Permite la gestión por parte del técnico, pero depende de solicitudes previas.             |
+| Actualizar estado          | Media     | Necesario para la gestión interna, ligado al seguimiento de solicitudes.                   |
+| Completar formulario       | Baja      | Funcionalidad complementaria para aportar información adicional en casos específicos.      |
+
+
+
