@@ -1,0 +1,45 @@
+@startuml rechazarBorrador
+
+skinparam linetype polyline
+
+state rechazarBorrador as "rechazarBorrador()" {
+
+    state " " as SeleccionandoBorrador
+    state " " as ConfirmandoRechazo
+    state " " as EliminandoBorrador
+
+    [*] -[#green]-> SeleccionandoBorrador
+    note on link
+    Se solicita rechazar un borrador
+    end note
+
+    SeleccionandoBorrador -[#green]-> ConfirmandoRechazo
+    note on link
+    <b>Sistema</b> solicita confirmacion
+    del rechazo
+    end note
+
+    ConfirmandoRechazo -[#green]-> EliminandoBorrador
+    note on link
+    <b>Sistema</b> actualiza el estado
+    del borrador
+    end note
+
+    EliminandoBorrador -[#green]-> [*]
+    note on link
+    <b>Sistema</b> elimina el borrador
+    del flujo si corresponde
+    end note
+}
+
+rechazarBorrador -[#green]-> BORRADORES_ABIERTO
+note on link
+completarRechazo()
+end note
+
+rechazarBorrador -[#red]-> BORRADOR_ABIERTO
+note on link
+cancelarRechazo()
+end note
+
+@enduml

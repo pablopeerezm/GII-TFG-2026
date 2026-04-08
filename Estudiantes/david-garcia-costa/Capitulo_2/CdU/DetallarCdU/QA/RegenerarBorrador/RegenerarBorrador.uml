@@ -1,0 +1,45 @@
+@startuml regenerarBorrador
+
+skinparam linetype polyline
+
+state regenerarBorrador as "regenerarBorrador()" {
+
+    state " " as RecuperandoBorrador
+    state " " as ProcesandoFeedback
+    state " " as GenerandoNuevaVersion
+
+    [*] -[#green]-> RecuperandoBorrador
+    note on link
+    Se solicita regenerar un borrador
+    end note
+
+    RecuperandoBorrador -[#green]-> ProcesandoFeedback
+    note on link
+    <b>Sistema</b> recupera el borrador y
+    el feedback previamente registrado
+    end note
+
+    ProcesandoFeedback -[#green]-> GenerandoNuevaVersion
+    note on link
+    <b>Sistema</b> procesa el feedback
+    y prepara la nueva version
+    end note
+
+    GenerandoNuevaVersion -[#green]-> [*]
+    note on link
+    <b>Sistema</b> genera la nueva version
+    y la deja disponible para revision
+    end note
+}
+
+regenerarBorrador -[#green]-> BORRADORES_ABIERTO
+note on link
+completarRegeneracion()
+end note
+
+regenerarBorrador -[#red]-> BORRADOR_ABIERTO
+note on link
+rechazarRegeneracion()
+end note
+
+@enduml

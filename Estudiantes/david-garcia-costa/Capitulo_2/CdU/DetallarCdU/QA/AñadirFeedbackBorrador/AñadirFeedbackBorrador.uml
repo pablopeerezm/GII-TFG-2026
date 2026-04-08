@@ -1,0 +1,45 @@
+@startuml anadirFeedbackBorrador
+
+skinparam linetype polyline
+
+state anadirFeedbackBorrador as "anadirFeedbackBorrador()" {
+
+    state " " as SeleccionandoBorrador
+    state " " as IntroduciendoFeedback
+    state " " as RegistrandoFeedback
+
+    [*] -[#green]-> SeleccionandoBorrador
+    note on link
+    Se solicita anadir feedback a un borrador
+    end note
+
+    SeleccionandoBorrador -[#green]-> IntroduciendoFeedback
+    note on link
+    <b>Sistema</b> muestra el borrador
+    y habilita la entrada de feedback
+    end note
+
+    IntroduciendoFeedback -[#green]-> RegistrandoFeedback
+    note on link
+    <b>Sistema</b> recibe el feedback
+    y valida su contenido
+    end note
+
+    RegistrandoFeedback -[#green]-> [*]
+    note on link
+    <b>Sistema</b> registra el feedback
+    sobre el borrador
+    end note
+}
+
+anadirFeedbackBorrador -[#green]-> BORRADOR_ABIERTO
+note on link
+completarActualizacion()
+end note
+
+anadirFeedbackBorrador -[#red]-> BORRADOR_ABIERTO
+note on link
+rechazarActualizacion()
+end note
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml publicarCasoPruebaKiwi
+
+skinparam linetype polyline
+
+state publicarCasoPruebaKiwi as "publicarCasoPruebaKiwi()" {
+
+    state " " as RecuperandoCaso
+    state " " as PreparandoPublicacion
+    state " " as EnviandoAKiwi
+
+    [*] -[#green]-> RecuperandoCaso
+    note on link
+    Se solicita publicar un caso de prueba
+    end note
+
+    RecuperandoCaso -[#green]-> PreparandoPublicacion
+    note on link
+    Se recupera el caso de prueba derivado
+    de un borrador aprobado y valida sus datos
+    end note
+
+    PreparandoPublicacion -[#green]-> EnviandoAKiwi
+    note on link
+    Se prepara la informacion necesaria
+    para la publicacion en Kiwi TCMS
+    end note
+
+    EnviandoAKiwi -[#green]-> [*]
+    note on link
+    Se envia la solicitud a Kiwi TCMS
+    y registra el resultado
+    end note
+}
+
+publicarCasoPruebaKiwi -[#green]-> KIWI_TCMS_ABIERTO
+note on link
+completarPublicacion()
+end note
+
+publicarCasoPruebaKiwi -[#red]-> CASO_PRUEBA_PREPARADO
+note on link
+rechazarPublicacion()
+end note
+
+@enduml

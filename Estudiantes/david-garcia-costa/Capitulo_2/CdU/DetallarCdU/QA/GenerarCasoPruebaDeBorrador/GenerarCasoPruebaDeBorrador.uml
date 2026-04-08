@@ -1,0 +1,46 @@
+@startuml generarCasoPruebaDerivadoDeBorrador
+
+skinparam linetype polyline
+
+state generarCasoPruebaDerivadoDeBorrador as "generarCasoPruebaDerivadoDeBorrador()" {
+
+    state " " as RecuperandoBorrador
+    state " " as TransformandoInformacion
+    state " " as GenerandoCasoPrueba
+
+    [*] -[#green]-> RecuperandoBorrador
+    note on link
+    Se solicita generar un caso de prueba
+    derivado de borrador
+    end note
+
+    RecuperandoBorrador -[#green]-> TransformandoInformacion
+    note on link
+    <b>Sistema</b> recupera el borrador aprobado
+    y prepara la transformacion
+    end note
+
+    TransformandoInformacion -[#green]-> GenerandoCasoPrueba
+    note on link
+    <b>Sistema</b> transforma el contenido
+    del borrador en caso de prueba
+    end note
+
+    GenerandoCasoPrueba -[#green]-> [*]
+    note on link
+    <b>Sistema</b> genera el caso de prueba
+    y lo deja disponible para publicacion
+    end note
+}
+
+generarCasoPruebaDerivadoDeBorrador -[#green]-> CASO_PRUEBA_PREPARADO
+note on link
+completarGeneracion()
+end note
+
+generarCasoPruebaDerivadoDeBorrador -[#red]-> BORRADOR_APROBADO
+note on link
+rechazarGeneracion()
+end note
+
+@enduml

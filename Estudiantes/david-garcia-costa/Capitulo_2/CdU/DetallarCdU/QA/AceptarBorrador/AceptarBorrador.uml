@@ -1,0 +1,45 @@
+@startuml aceptarBorrador
+
+skinparam linetype polyline
+
+state aceptarBorrador as "aceptarBorrador()" {
+
+    state " " as SeleccionandoBorrador
+    state " " as ValidandoBorrador
+    state " " as AprobandoBorrador
+
+    [*] -[#green]-> SeleccionandoBorrador
+    note on link
+    Se solicita aceptar un borrador
+    end note
+
+    SeleccionandoBorrador -[#green]-> ValidandoBorrador
+    note on link
+    <b>Sistema</b> recupera el borrador
+    y valida su estado actual
+    end note
+
+    ValidandoBorrador -[#green]-> AprobandoBorrador
+    note on link
+    <b>Sistema</b> comprueba que el borrador
+    es aceptable
+    end note
+
+    AprobandoBorrador -[#green]-> [*]
+    note on link
+    <b>Sistema</b> marca el borrador
+    como aprobado
+    end note
+}
+
+aceptarBorrador -[#green]-> BORRADOR_APROBADO
+note on link
+completarAceptacion()
+end note
+
+aceptarBorrador -[#red]-> BORRADOR_ABIERTO
+note on link
+rechazarAceptacion()
+end note
+
+@enduml
