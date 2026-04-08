@@ -1,34 +1,52 @@
 @startuml
-actor "Actor" as Actor
-participant "Orchestrator" as ORCH
-participant "Extract UC/RF Agent" as EXTRACT
-participant "Requirements Manager Agent" as REQ
-participant "Gherkin Generator Agent" as GHERKIN
-participant "Review & Publish Agent" as REVIEW
-participant "Kiwi Case Manager Agent" as KIWI_AGENT
+actor "Actor" as QA
+participant "Sistema" as SISTEMA
 participant "Kiwi TCMS" as KIWI
 
-Actor -> ORCH : Enviar documentación de entrada
-ORCH -> EXTRACT : Procesar documentación
-EXTRACT --> ORCH : UC + RF extraídos
+QA -> SISTEMA : Enviar documentacion de entrada
 
-ORCH -> REQ : Guardar / gestionar UC y RF
-REQ --> ORCH : Confirmación / datos persistidos
-
-ORCH -> GHERKIN : Generar escenarios Gherkin
-GHERKIN --> ORCH : EscenarioPrueba (draft)
-
-ORCH -> REVIEW : Revisar escenario / aplicar feedback
-REVIEW --> ORCH : Escenario validado
-
-alt Escenario aceptado
-  ORCH -> KIWI_AGENT : Publicar caso de prueba
-  KIWI_AGENT -> KIWI : Crear / actualizar test case
-  KIWI --> KIWI_AGENT : Resultado publicación
-  KIWI_AGENT --> ORCH : CasoPrueba publicado
-else Escenario rechazado
-  REVIEW --> ORCH : Feedback para regeneración
+alt Documentacion sin proyecto asociado
+  SISTEMA --> QA : Solicitar proyecto asociado
+  QA -> SISTEMA : Indicar proyecto
 end
 
-ORCH --> Actor : Respuesta final / estado
+SISTEMA -> SISTEMA : Registrar y asociar documentacion
+SISTEMA -> SISTEMA : Extraer casos de uso
+SISTEMA -> SISTEMA : Extraer requisitos funcionales
+SISTEMA -> SISTEMA : Generar escenarios Gherkin
+SISTEMA -> SISTEMA : Crear borrador
+SISTEMA --> QA : Mostrar UC + RF + escenarios Gherkin ( borrador )
+
+QA -> SISTEMA : Consultar borrador
+
+alt Anadir feedback
+  QA -> SISTEMA : Anadir feedback a borrador
+  SISTEMA -> SISTEMA : Regenerar nueva version
+  SISTEMA --> QA : Mostrar borrador actualizado
+end
+
+alt Borrador aceptado
+  QA -> SISTEMA : Aceptar borrador
+  SISTEMA -> SISTEMA : Derivar caso de prueba
+  SISTEMA --> QA : Caso de prueba generado
+
+  QA -> SISTEMA : Publicar caso de prueba
+  SISTEMA -> KIWI : Crear test case
+  KIWI --> SISTEMA : Resultado publicacion
+  SISTEMA --> QA : Caso de prueba publicado
+else Borrador rechazado
+  QA -> SISTEMA : Rechazar borrador
+  SISTEMA --> QA : Borrador eliminado
+end
+
+QA -> SISTEMA : Buscar caso de prueba en Kiwi
+SISTEMA -> KIWI : Buscar casos de prueba
+KIWI --> SISTEMA : Lista de resultados
+SISTEMA --> QA : Casos encontrados
+
+QA -> SISTEMA : Consultar detalle de caso en Kiwi
+SISTEMA -> KIWI : Recuperar detalle de caso
+KIWI --> SISTEMA : Detalle de caso
+SISTEMA --> QA : Respuesta final / estado
+
 @enduml
