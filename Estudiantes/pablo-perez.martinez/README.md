@@ -38,7 +38,7 @@
 
 ##### [Identificación de actores](./Capitulo2/Actores.md)
 
-##### Identificación y priorización de casos de uso
+##### [Identificación y priorización de casos de uso](./Capitulo2/IdentificacionYPriorizacionCdU.md)
 
 ##### Descripción de casos de uso
 
