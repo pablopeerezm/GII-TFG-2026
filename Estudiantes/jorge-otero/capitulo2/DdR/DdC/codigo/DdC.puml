@@ -2,15 +2,23 @@
 
 top to bottom direction
 
+package "Proyecto" {
+
 rectangle Cliente
 rectangle Sistema
 rectangle Tecnico
+rectangle Formulario
 
 Cliente --> Sistema : Enviar solicitud
 Sistema --> Cliente : Recibir respuesta
-Cliente --> Sistema : Completar formulario
+Cliente --> Formulario : Completar formulario
 
-Tecnico --> Sistema : Ver solicitudes pendientes
 Tecnico --> Sistema : Actualizar estado
+
+}
+
+rectangle Vista_Datos
+
+Tecnico --> Vista_Datos : Ver solicitudes pendientes
 
 @enduml

@@ -53,7 +53,7 @@ Por otro lado, el diagrama de estados del Técnico representa un proceso más co
 
 | Categoría      | Requisito                  | Descripción                                                                                        |
 | -------------- | -------------------------- | -------------------------------------------------------------------------------------------------- |
-| Rendimiento    | Tiempo de respuesta        | El sistema debe procesar y responder a una solicitud en un tiempo inferior a 2 minutos.            |
+| Rendimiento    | Tiempo de respuesta        | El sistema debe procesar y responder a todas las solicitudes en un tiempo inferior a 10 minutos            |
 | Disponibilidad | Disponibilidad del sistema | El sistema debe estar disponible durante el horario laboral o de forma continua según necesidades. |
 | Usabilidad     | Facilidad de uso           | La interacción debe ser sencilla para el cliente, sin necesidad de conocimientos técnicos.         |
 | Mantenibilidad | Facilidad de modificación  | El sistema debe permitir cambios en reglas, flujos o procesamiento sin grandes modificaciones.     |

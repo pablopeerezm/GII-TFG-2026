@@ -35,5 +35,29 @@ El funcionamiento del sistema sigue una estructura cíclica, en la que, tras la 
 | Actualizar estado          | Media     | Necesario para la gestión interna, ligado al seguimiento de solicitudes.                   |
 | Completar formulario       | Baja      | Funcionalidad complementaria para aportar información adicional en casos específicos.      |
 
+## Detallar Casos de Uso
 
+### Caso de Uso - Enviar Solicitud
+
+| Diagrama | Código |
+|---------|---------|
+|![CdU](./Detallar_CdU/imagen/EnviarSolicitud.png)|[Ver código](./Detallar_CdU/codigo/EnviarSolicitud.puml)|
+
+Este caso de uso describe el proceso mediante el cual el cliente genera y envía una solicitud al sistema. El flujo comienza cuando el cliente identifica una necesidad, ya sea un problema o una consulta, lo que le lleva a redactar la solicitud.
+
+Antes de enviarla, el cliente revisa su contenido para comprobar que la información es correcta. En caso de no estar conforme, puede modificarla tantas veces como sea necesario. Una vez validada, la solicitud es enviada al sistema.
+
+Este proceso garantiza que las solicitudes recibidas tengan un mínimo nivel de calidad y coherencia, facilitando su posterior procesamiento.
+
+### Caso de Uso - Recibir Respuesta
+
+| Diagrama | Código |
+|---------|---------|
+|![CdU](./Detallar_CdU/imagen/RecibirRespuesta.png)|[Ver código](./Detallar_CdU/codigo/RecibirRespuesta.puml)|
+
+Este caso de uso describe el proceso mediante el cual el cliente recibe una respuesta tras haber enviado una solicitud al sistema.
+
+El flujo comienza con el cliente en espera de una respuesta. A continuación, el sistema procesa la solicitud previamente enviada y genera una respuesta, que es posteriormente enviada al cliente.
+
+Finalmente, el cliente recibe y revisa la respuesta. En caso de necesitar aportar información adicional, podrá iniciar un nuevo caso de uso independiente mediante el formulario.
 
