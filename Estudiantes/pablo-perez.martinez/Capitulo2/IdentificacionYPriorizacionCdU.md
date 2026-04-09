@@ -1,4 +1,4 @@
-# Identificación y preiorización de casos de uso
+# Identificación y priorización de casos de uso
 
 
 A continuación, se mencionan brevemente los casos de uso identificados a partir de los requisitos funcionales detallados, los cuales están agrupados según las funcionalidades del sistema:
