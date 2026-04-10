@@ -1092,10 +1092,10 @@ Permite guardar los resultados generados o editados durante la sesion actual, in
 - Hay artefactos generados o modificados pendientes de persistencia.
 
 **Flujo principal:**
-1. El actor solicita guardar los resultados de la sesion.
-2. El sistema identifica los casos de uso, requisitos funcionales y/o borradores pendientes.
-3. El sistema valida la consistencia de los artefactos.
-4. El sistema persiste los resultados y confirma la operacion.
+1.	El sistema identifica los casos de uso, requisitos funcionales o borradores pendientes.
+2.	El sistema valida la consistencia de los artefactos.
+3.	El sistema persiste los resultados y guarda los resultados
+
 
 **Casos de Error:**
 - E1. No existen resultados pendientes
