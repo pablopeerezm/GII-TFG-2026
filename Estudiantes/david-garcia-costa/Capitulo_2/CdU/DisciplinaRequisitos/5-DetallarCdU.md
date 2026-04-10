@@ -1093,7 +1093,7 @@ Permite guardar los resultados generados o editados durante la sesion actual, in
 
 **Flujo principal:**
 1. El actor solicita guardar los resultados de la sesion.
-2. El sistema identifica los casos de uso, requisitos funcionales y borradores pendientes.
+2. El sistema identifica los casos de uso, requisitos funcionales y/o borradores pendientes.
 3. El sistema valida la consistencia de los artefactos.
 4. El sistema persiste los resultados y confirma la operacion.
 
