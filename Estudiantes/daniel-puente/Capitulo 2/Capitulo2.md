@@ -199,12 +199,12 @@ En esta sección se detallan los casos de uso que conforman el flujo principal d
 
 | ID | Caso de uso | Camarero | Administrador | Cocinero | Sist. Notif. |
 |---|---|:---:|:---:|:---:|:---:|
-| CU-N01 | Acceso denegado por credenciales incorrectas | ✅ | ✅ | ✅ | |
-| CU-N02 | Operación bloqueada por rol insuficiente | ✅ | | ✅ | |
-| CU-N03 | Comanda rechazada por alérgenos incompletos | ✅ | ✅ | | |
-| CU-N04 | Reserva rechazada por conflicto de horario | | ✅ | | |
-| CU-N05 | Edición bloqueada de línea en preparación | ✅ | ✅ | | |
-| CU-N06 | Ticket rechazado por mesa ya cobrada | ✅ | | | |
+| CU-N01 | Denegar acceso por credenciales incorrectas | ✅ | ✅ | ✅ | |
+| CU-N02 | Bloquear operación por rol insuficiente | ✅ | | ✅ | |
+| CU-N03 | Rechazar comanda por alérgenos incompletos | ✅ | ✅ | | |
+| CU-N04 | Rechazar reserva por conflicto de horario | | ✅ | | |
+| CU-N05 | Bloquear edición de línea en preparación | ✅ | ✅ | | |
+| CU-N06 | Rechazar ticket por mesa ya cobrada | ✅ | | | |
 | CU-N07 | Restringir pedido por falta de stock | ✅ | | | ✅ |
 | CU-N08 | Anular ticket ya cobrado por error de cobro | | ✅ | | |
 | CU-N09 | Marcar reserva como no presentado | | ✅ | | |
@@ -225,7 +225,7 @@ En esta sección se detallan los casos de uso que conforman el flujo principal d
 ![CDU-SistNoti](/Estudiantes/daniel-puente/Capitulo%202/imagenes/CDU-NotificacionesAuto.svg)
 
 ### Casos de Uso Negativos
-![CDU-Negativos](/Estudiantes/daniel-puente/Capitulo%202/imagenes/CDU-Negativos.svg)
+![CDU-Negativos](/Estudiantes/daniel-puente/Capitulo%202/imagenes/CDU-Negativos.svg) 
 
 
 ## Priorización MoSCoW
