@@ -227,6 +227,9 @@ En esta sección se detallan los casos de uso que conforman el flujo principal d
 ### Casos de Uso Negativos
 ![CDU-Negativos](/Estudiantes/daniel-puente/Capitulo%202/imagenes/CDU-Negativos.svg) 
 
+## Diagrama de Secuencia
+![Secuencia](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Secuencia.svg) 
+
 
 ## Priorización MoSCoW
 
@@ -253,17 +256,17 @@ En esta sección se detallan los casos de uso que conforman el flujo principal d
 | **CU-21** | Gestionar usuarios y roles | 🔴 Must |
 | **CU-25** | Gestionar carta (Añadir, Editar, Eliminar platos) | 🔴 Must |
 | **CU-27** | Enviar notificaciones automáticas | 🔴 Must |
-| **CU-N01** | Acceso denegado por credenciales incorrectas | 🔴 Must |
-| **CU-N02** | Operación bloqueada por rol insuficiente | 🔴 Must |
-| **CU-N03** | Comanda rechazada por alérgenos incompletos | 🔴 Must |
-| **CU-N05** | Edición bloqueada de línea en preparación | 🔴 Must |
-| **CU-N06** | Ticket rechazado por mesa ya cobrada | 🔴 Must |
+| **CU-N01** | Denegar acceso por credenciales incorrectas  | 🔴 Must |
+| **CU-N02** | Bloquear operación por rol insuficiente | 🔴 Must |
+| **CU-N03** | Rechazar comanda por alérgenos incompletos | 🔴 Must |
+| **CU-N05** | Bloquear edición de línea en preparación | 🔴 Must |
+| **CU-N06** | Rechazar ticket por mesa ya cobrada | 🔴 Must |
 | **CU-15** | Editar ticket | 🟠 Should |
 | **CU-16** | Reclamar ticket enviado | 🟠 Should |
 | **CU-24** | Consultar log de auditoría | 🟠 Should |
 | **CU-26** | Configurar Menú del Día | 🟠 Should |
 | **CU-28** | Marcar plato como agotado / disponible | 🟠 Should |
-| **CU-N04** | Reserva rechazada por conflicto de horario | 🟠 Should |
+| **CU-N04** | Rechazar reserva por conflicto de horario | 🟠 Should |
 | **CU-N07** | Restringir pedido por falta de stock | 🟠 Should |
 | **CU-N10** | Desbloquear cuenta por intentos fallidos | 🟠 Should |
 | **CU-22** | Configurar plano de sala (Zonas y Mesas) | 🟡 Could |
@@ -285,15 +288,35 @@ Los 4 casos de uso Could añaden valor al sistema pero no son críticos para el 
 
 ## Detallar Casos de Uso
 
-## Prototipar Casos de Uso
+## Boceto de Prototipos Casos de Uso
 
-![Prototipo 1](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Prototipos1.jpeg)
+### Boceto 1 — Pantalla KDS y Panel Admin
+![Boceto 1](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Prototipos1.jpeg)
 
+#### Pantalla KDS
+Pantalla exclusiva del Cocinero. Muestra en tiempo real las comandas pendientes organizadas por mesa, distinguiendo primeros y segundos platos. Cada línea incluye cantidad, alérgenos destacados con indicador visual y observaciones del camarero. El cocinero puede marcar cada plato como en preparación o como listo directamente desde esta pantalla. Soporta tanto platos de carta [C] como del menú del día [M]
+#### Panel Admin
+
+### Boceto 2 - Vista Ticket/Caja y Gestión Reservas
 ![Prototipo 2](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Prototipos2.jpeg)
 
-![Prototipo 3](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Prototipos3.jpeg)
+#### Vista Ticket Caja
 
+#### Gestión Reservas
+
+### Boceto 3  
+![Prototipo 3](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Prototipos3.jpeg)
+#### Login
+Pantalla de acceso al sistema. Presenta un formulario con campos de email y contraseña bajo el logotipo del restaurante. Tras validar las credenciales, el sistema redirige automáticamente a la vista principal según el rol del usuario autenticado: Camarero, Cocinero o Administrador.
+#### Vista de Mesas
+Pantalla principal del Camarero y del Administrador. Muestra el plano de mesas agrupadas por zona mediante pestañas (Comedor, Bar,
+Terraza…), con indicadores de estado por mesa: libre, ocupada o reservada.El estado se actualiza en tiempo real a través de WebSocket, permitiendo al usuario abrir una mesa directamente desde el plano.
+
+### Boceto 4
 ![Prototipo 4](/Estudiantes/daniel-puente/Capitulo%202/imagenes/Prototipos4.jpeg)
+#### Formulario Nueva/Editar Reserva
+
+#### Tomar Comanda
 
 ## Estructurar Casos de Uso
 
@@ -323,16 +346,15 @@ El objetivo de este paso es estructurar el modelo de casos de uso del sistema de
 | **CU-12 Marcar plato como listo** | CU-11 Marcar comanda en preparación | Un plato solo puede marcarse como listo si está en preparación |
 | **CU-09 Solicitar segundos platos** | CU-12 Marcar plato como listo | Solo se pueden solicitar segundos si los primeros están marcados como listos |
 
-
-#### Relación `<<extend>>`
+### Relación `<<extend>>`
 
 | Caso de uso principal | Caso de uso extendido | Explicación |
 |---|---|---|
-| **CU-01 Iniciar sesión** | CU-N01 Acceso denegado por credenciales incorrectas | El acceso se deniega si las credenciales introducidas son incorrectas |
+| **CU-01 Iniciar sesión** | CU-N01 Denegar acceso por credenciales incorrectas | El acceso se deniega si las credenciales introducidas son incorrectas |
 | **CU-01 Iniciar sesión** | CU-N10 Desbloquear cuenta por intentos fallidos | Tras 5 intentos fallidos el sistema bloquea la cuenta |
-| **CU-06 Tomar comanda** | CU-N03 Comanda rechazada por alérgenos incompletos | El envío se bloquea si alguna línea tiene alérgenos sin completar |
+| **CU-06 Tomar comanda** | CU-N03 Rechazar comanda por alérgenos incompletos | El envío se bloquea si alguna línea tiene alérgenos sin completar |
 | **CU-06 Tomar comanda** | CU-N07 Restringir pedido por falta de stock | El sistema impide añadir platos marcados como agotados |
-| **CU-08 Editar comanda** | CU-N05 Edición bloqueada de línea en preparación | La edición se bloquea si la línea ya está en preparación o lista |
-| **CU-14 Enviar ticket a caja** | CU-N06 Ticket rechazado por mesa ya cobrada | El envío se rechaza si la mesa ya ha sido cobrada y cerrada |
-| **CU-19 Gestionar reservas** | CU-N04 Reserva rechazada por conflicto de horario | La reserva se rechaza si existe otra activa en el mismo tramo horario |
-| **CU-21 Gestionar usuarios y roles** | CU-N02 Operación bloqueada por rol insuficiente | La operación se bloquea si el usuario no tiene rol de Administrador |
+| **CU-08 Editar comanda** | CU-N05 Bloquear edición de línea en preparación | La edición se bloquea si la línea ya está en preparación o lista |
+| **CU-14 Enviar ticket a caja** | CU-N06 Rechazar ticket por mesa ya cobrada | El envío se rechaza si la mesa ya ha sido cobrada y cerrada |
+| **CU-19 Gestionar reservas** | CU-N04 Rechazar reserva por conflicto de horario | La reserva se rechaza si existe otra activa en el mismo tramo horario |
+| **CU-21 Gestionar usuarios y roles** | CU-N02 Bloquear operación por rol insuficiente | La operación se bloquea si el usuario no tiene rol de Administrador |
