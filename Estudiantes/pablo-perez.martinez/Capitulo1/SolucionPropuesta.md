@@ -35,10 +35,6 @@ entre las entidades del sistema y garantizando la coherencia de la información.
 los componentes del OEE (disponibilidad, rendimiento y calidad) y el valor global del 
 indicador, a partir de los datos integrados en la capa anterior.
 
-- Almacenamiento histórico: Gestiona el registro persistente de los valores 
-calculados del OEE, permitiendo su recuperación posterior para análisis temporales y 
-comparativas.
-
 - Capa de presentación: Proporciona interfaces gráficas de visualización y 
 análisis que facilitan la interpretación de los resultados por parte de los usuarios del sistema.
 
