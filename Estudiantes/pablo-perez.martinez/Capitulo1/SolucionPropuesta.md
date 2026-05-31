@@ -43,9 +43,6 @@ análisis que facilitan la interpretación de los resultados por parte de los us
 Además del cálculo automatizado del OEE, la solución incluirá las siguientes 
 funcionalidades: 
 
-- Análisis temporal: Mecanismos de almacenamiento histórico de los valores 
-calculados que permitirán realizar análisis de tendencias, comparativas entre períodos y 
-detección de desviaciones en el rendimiento productivo.
 
 - Comparación teórico-real: Capacidad de contrastar los valores teóricos 
 definidos en la planificación con los resultados reales obtenidos durante la ejecución, 
