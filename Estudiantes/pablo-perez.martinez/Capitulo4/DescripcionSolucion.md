@@ -176,5 +176,147 @@ ManufacturingIndexInfoBySplitDto.
 La lógica de cálculos se concentra en la clase ManufacturingInfoServiceV2Impl. Dentro 
 de esta implementación destacan cuatro métodos relacionados con la funcionalidad desarrollada: getManufacturingIndexInfoBySplit, getManufacturingInfoOfSplit, getIndexInfo y getManufacturingInfoForSpeedCurve. 
 
+#### getManufacturingIndexInfoBySplit
+
+Este método constituye el punto principal del cálculo por partición. Recibe como 
+entrada un ManufacturingInfoBySplitToCalculateDto y utiliza su splitId para recuperar el 
+AssignmentSplit correspondiente. Se define el rango temporal del cálculo, se cargan los datos 
+del puesto de trabajo asociado, se validan los tiempo de ciclo y se preparan los valores base 
+necesarios.
+
+![Cap1](./capturasCodigo/getManufacturingIndexInfoBySplit01.jpg)  
+A continuación, se realizan todas las consultas necesarias en paralelo, con el fin de 
+obtener actividades, indirectos, outputs, rechazos, microparadas y ejecuciones del split.
+![Cap2](./capturasCodigo/getManufacturingIndexInfoBySplit02.jpg)  
+![Cap3](./capturasCodigo/getManufacturingIndexInfoBySplit03.jpg)  
+![Cap4](./capturasCodigo/getManufacturingIndexInfoBySplit04.jpg)  
+![Cap5](./capturasCodigo/getManufacturingIndexInfoBySplit05.jpg)  
+La siguiente tarea es resolver las consultas realizadas anteriormente. Primero se 
+declaran las listas que contendrán estos resultados y después se resuelven de forma paralela, con 
+un tiempo máximo de 45 segundos. En caso de que se agote en alguna de ellas, se lanzarán 
+excepciones. 
+
+![Cap6](./capturasCodigo/getManufacturingIndexInfoBySplit06.jpg)  
+Seguidamente, se preparan los datos auxiliares. Se calculan los rangos de actividad, se 
+obtienen las paradas de máquina relacionadas, se cierran las paradas abiertas y se agrupan los 
+outputs por material. 
+![Cap7](./capturasCodigo/getManufacturingIndexInfoBySplit07.jpg)  
+Después, se delega el cálculo principal de tiempos, piezas, ejecuciones e indicadores del 
+split al método explicado posteriormente “getManufacturingInfoOfSplit”. Se le pasan como 
+parámetros todos los datos recopilados anteriormente.
+![Cap8](./capturasCodigo/getManufacturingIndexInfoBySplit08.jpg)  
+Por último, se copian los resultados calculados al DTO de respuesta, se calcula la curva 
+de velocidad mediante el método getManufacturingInfoForSpeedCurve a partir de las 
+actividades y salidas de producción del split  
+![Cap9](./capturasCodigo/getManufacturingIndexInfoBySplit09.jpg)  
+
+#### getManufacturingInfoOfSplit
+El método getManufacturingInfoOfSplit estaba diseñado previamente, se ha añadido 
+únicamente la llamada a getIndexInfo para que además de toda la información de producción 
+que calculaba del split anteriormente, añada el OEE y sus indicadores.
+La información de producción que ya se calculaba inicialmente es: 
+  - Piezas planificadas, fabricadas, rechazos y restantes.
+  - Piezas pero separadas por material.
+  - Tiempo trabajado, paradas, microparadas, indirectos y tiempo productivo.
+  - Ejecuciones objetivo, ejecutadas y pendientes.
+
+
+#### getIndexInfo
+
+El método getIndexInfo se encarga de calcular los indicadores principales de 
+rendimiento de la partición. En primer lugar, recibe como entrada la información de piezas 
+producidas, tiempos de fabricación y datos teóricos necesarios para calcular los indicadores de 
+rendimiento. 
+
+![Cap10](./capturasCodigo/getIndexInfo01.jpg)  
+
+A continuación, se obtiene el número de ejecuciones, se crea el DTO de respuesta y se 
+extraen los valores principales que se utilizarán en los cálculos. Por un lado se obtienen las 
+piezas buenas fabricadas y los rechazos, tanto totales como dentro de eventos productivos. Por 
+otro lado, se recuperan los tiempos necesarios: tiempo total transcurrido, tiempo de parada y 
+tiempo productivo. 
+
+![Cap11](./capturasCodigo/getIndexInfo02.jpg)  
+
+En el siguiente fragmento, se realizan los cálculos principales. Primero se calcula el 
+tiempo de ciclo real dividiendo el tiempo productivo entre las ejecuciones realizadas en caso de 
+que exista producción y tiempo productivo. Después se calcula la disponibilidad, restando a 1 el 
+cociente de tiempo de inactividad entre tiempo transcurrido. A continuación se calcula el 
+rendimiento dividiendo el tiempo de ciclo teórico entre el tiempo de ciclo real. Y por último, se 
+calcula la calidad general y calidad en eventos productivos, delegando en el método 
+getQualityIndex, que divide en caso de haber piezas buenas, esas piezas entre las piezas totales 
+(buenas + rechazos).
+
+![Cap12](./capturasCodigo/getIndexInfo03.jpg)  
+
+Por último, se rellena el DTO de salida con los valores calculados y se calcula el OEE 
+multiplicando los indicadores: calidad, rendimiento y disponibilidad.
+
+![Cap13](./capturasCodigo/getIndexInfo04.jpg)  
+
+
+#### getManufacturingInfoForSpeedCurve
+
+El método genera la información necesaria para representar la curva de velocidad de 
+producción. Para ello, utiliza los registros de fabricación ya recuperados previamente para la 
+partición, sin realizar nuevas consultas a la base de datos. 
+
+En primer lugar, recibe como parámetros de entrada dos colecciones: las actividades de 
+producción de una partición concreta para comprobar si sigue activa o ha terminado, y las 
+salidas de producción, es decir, registros de unidades fabricadas.
+
+![Cap14](./capturasCodigo/getManufacturingInfoForSpeedCurve01.jpg)  
+
+Se prepara la lista de salidas de producción que se va a utilizar para calcular la curva. En 
+caso de que la colección recibida sea nula, se crea una lista vacía. En caso contrario, se filtran los registros para eliminar valores nulos y outputs que no tengan fecha de fabricación. 
+
+A continuación, se comprueba si después del filtrado inicial, hay registros válidos de 
+producción. Si no hay ningún output con información suficiente, no se puede construir la curva 
+de velocidad y se devuelve una lista vacía.
+
+![Cap15](./capturasCodigo/getManufacturingInfoForSpeedCurve02.jpg)  
+
+Después, se define el rango temporal sobre el que se calculará la curva. Primero se 
+obtiene la fecha y hora actual en UTC, que se usará si la partición sigue activa. Posteriormente, 
+se calcula el inicio del rango tomando la fecha más antigua entre todos los outputs registrados. 
+Por último, se comprueba si la partición continúa en ejecución, revisando si alguna de sus 
+actividades no tiene fecha de finalización o se encuentra en estado activo. 
+
+![Cap16](./capturasCodigo/getManufacturingInfoForSpeedCurve03.jpg)  
+
+En el siguiente fragmento, se establece el final del rango temporal. Si la partición sigue 
+activa, la curva se calcula hasta el momento actual. Si ya ha terminado, se toma como referencia 
+la fecha del último output registrado. En este caso, se añade un segundo para asegurar que el 
+último registro quede incluido dentro del cálculo y se valida que la fecha final sea posterior a la inicial.
+
+![Cap17](./capturasCodigo/getManufacturingInfoForSpeedCurve04.jpg)  
+
+Una vez se ha definido el rango temporal, el método calcula su duración total en 
+segundos y la transforma en horas, redondeando hacia arriba para incluir los intervalos 
+parciales. 
+
+Por último, se recorre cada una de las horas del rango temporal calculado filtrando los 
+outputs cuya fecha de fabricación se encuentra en el intervalo, y se suman las cantidades 
+producidas. Al terminar el recorrido, el método devuelve una lista con los valores de producción 
+en cada hora. 
+
+![Cap18](./capturasCodigo/getManufacturingInfoForSpeedCurve05.jpg)  
+
+
+### Solicitud y respuesta
+
+En este apartado se muestra el ejemplo real de la comunicación entre el frontend y el 
+backend para obtener la información de rendimiento asociada a un split concreto en producción.  
+
+Request: ManufacturingInfoBySplitToCalculateDto en formato JSON
+
+![Request](./capturasCodigo/request.jpg)  
+
+Response: ManufacturingIndexInfoBySplitDto en formato JSON
+
+![Response01](./capturasCodigo/response01.jpg)  
+
+![Response02](./capturasCodigo/response02.jpg)  
+
 
 
