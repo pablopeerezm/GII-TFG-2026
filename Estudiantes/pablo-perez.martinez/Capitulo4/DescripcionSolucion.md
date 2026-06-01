@@ -319,4 +319,151 @@ Response: ManufacturingIndexInfoBySplitDto en formato JSON
 ![Response02](./capturasCodigo/response02.jpg)  
 
 
+## Frontend
+
+La parte frontend de la solución se ha desarrollado en la pantalla correspondiente a la 
+fase de producción de Visual Tracking. El objetivo principal de esta implementación es 
+incorporar una nueva pestaña de rendimiento que permita consultar, analizar y visualizar los 
+indicadores productivos de una partición de una orden de trabajo. 
+
+Para ello, se ha desarrollado el componente principal Performance.js, que actúa como 
+núcleo de la funcionalidad en el frontend, ya que se encarga de preparar el contexto necesario, 
+obtener los datos auxiliares, seleccionar el split activo y coordinar la visualización de los 
+distintos elementos gráficos e informativos. 
+
+A continuación, se muestra una tabla resumen de los principales archivos implicados en 
+la parte de frontend de la solución: 
+
+|Archivo | Función |
+|:---:|:---:|
+|Performance.js | Componente principal de la pestaña de rendimiento. Orquesta la carga de datos, la selección de split y el renderizado de componentes hijos. |
+| PerformanceInfoGraphs.js | Muestra los gráficos de baraas de OEE, información de tiempos e información de piezas. |
+|PerformanceSplitState.js | Selector de partición |
+|PerformanceTable.js | Presenta una tabla rresumen con OEE, disponibilidad, rendimiento y calidad |
+|PerformanceSpeedCurve.js | Representa la curva de unidades fabricadas por horas. |
+|PerformanceUtils.js | Agrupa funciones auxiliares para normalizar indicadores, piezas y etiquetas.| 
+|vtApi.js | Define la llamada al backend | 
+|Tabs.js | Integra la pestala Performance dentro de la fase de producción en VT |
+
+
+### Performance
+
+Representa la pestaña encargada de mostrar la información de rendimiento de las 
+distintas particiones en que se ha secuenciado una o varias actividades de una orden de trabajo. 
+Su responsabilidad principal no es únicamente mostrar datos en pantalla, sino también preparar 
+toda la información necesaria para que los componentes hijos puedan mostrar los indicadores 
+correctamente.
+
+![Performance](./capturasCodigo/Performance.jpg)
+
+En primer lugar, se filtran las actividades disponibles para únicamente trabajar con las 
+de tipo procedimiento. A partir de esta información, se realizan consultas auxiliares necesarias 
+para construir el contexto de cálculo y visualización, como la obtención de splits, materiales de 
+salida, unidades de medida…
+
+La selección del split es uno de los elementos fundamentales de esta pantalla. El 
+componente mantiene en estado interno el selectedSplit, que representa el split seleccionado por 
+el usuario o asignado por defecto al cargar la pestaña. Cuando existe un split seleccionado, se 
+habilita la carga de datos de rendimiento mediante la llamada al backend.
+
+Para la gestión de datos, el componente utiliza principalmente React Query, a través de 
+useQuery y useQueries. Esto permite centralizar las peticiones, controlar la caché de resultados 
+y actualizar la información cuando cambia el split seleccionado o la vista temporal activa.
+
+La carga de rendimiento se lanza cuando existe un valor válido para selectedSplit?.id, 
+sin especificar un rango temporal. Una vez recibidos los datos, el componente selecciona la 
+respuesta mediante activePerformanceData y se la reparte a los componentes hijos.
+
+### PerformanceInfoGraphs
+
+Componente que muestra 3 gráficas de barras horizontales, una para el OEE, otra para 
+la información de tiempos (tiempo transcurrido, paradas, microparadas y restante) y la última 
+para información de piezas (piezas buenas, rechazos y restantes).
+
+![PerformanceInfoGraphs](./capturasCodigo/PerformanceInfoGraphs.jpg)
+
+A partir de performanceData, utiliza información procedente de indexInfo, timeInfo y 
+piecesInfo. 
+
+Este componente no utiliza ninguna librería de gráficas externa, sino que construye las 
+barras visuales mediante elementos de Material UI como Box, Paper y Typography. 
+
+Además, el componente aplica funciones auxiliares para normalizar la información 
+antes de mostrarla. Por ejemplo, convierte los segundos a horas, transforma índices en 
+porcentajes y establece el tamaño proporcionalmente de las gráficas de barras.
+
+
+### PerformanceSpeedCurve
+
+Se encarga de representar gráficamente la curva de velocidad de producción. Esta 
+gráfica permite observar la evolución de las unidades producidas por hora para la partición 
+seleccionada y el objetivo de producción por hora.
+
+![PerformanceSpeedCurve](./capturasCodigo/PerformanceSpeedCurve.jpg)
+
+
+**Nota: en la imagen adjunta no se genera curva de velocidad ya que ha habido menos de 1 
+hora de producción y por lo tanto sólo hay 1 punto. 
+
+Recibe como propiedades la información de producción por horas, la abreviatura de la 
+unidad de medida para el diseño, y el objetivo teórico de producción por hora. 
+
+La representación gráfica se realiza mediante Highcharts y highcharts-react-oficial. 
+Antes de pintar la serie, el componente normaliza los valores de la curva para asegurar su 
+formato numérico. 
+
+Además, se calcula un máximo adecuado para el eje Y mediante getNiceMax y se 
+genera la configuración de la gráfica a través de getLineOptions. La gráfica también incorpora 
+una línea de la producción objetiva por hora, lo que permite comparar la producción real con la 
+producción óptima esperada por hora. 
+
+### PerformanceTable
+
+Este componente muestra una tabla resumen con el OEE y sus indicadores: 
+Disponibilidad, Rendimiento y Calidad. Es un componente complementario a los gráficos que 
+permite consultar de manera precisa los valores de cada indicador. 
+
+![PerformanceTable](./capturasCodigo/PerformanceTable.jpg)
+
+### PerformanceSplitState
+
+Muestra un selector con el split seleccionado. Permite al usuario abrir una pestaña con 
+las distintas particiones de la orden y elegir una distinta a la previamente seleccionada. Además, se muestra el estado de cada una de ellas.
+
+![PerformanceSplitState](./capturasCodigo/PerformanceSplitState.jpg)
+
+Incluye un botón que abre el selector de splits mediante OverviewSplitModal, que 
+permite al usuario cambiar el split analizado y provocar una nueva carga de datos de 
+rendimiento. 
+
+El componente OverviewSplitModal ha sido reutilizado de la pestaña Overview (Resumen) de la fase de producción de VT.
+
+### PerformanceUtils
+
+El archivo PerformanceUtils agrupa funcionalidades auxiliares utilizadas por los 
+componentes de rendimiento. Su finalidad es evitar duplicar lógica y centralizar la 
+normalización de datos recibidos desde el backend. 
+
+Una de estas funcionalidades es getPerformanceIndexInfo, que garantiza que los 
+indicadores tengan siempre un valor por defecto, evitando errores en pantalla cuando algún dato 
+llega vacío o no disponible. 
+
+Igualmente, getPerformancePiecesInfo normaliza la información de piezas/unidades 
+fabricadas, rechazadas, pendientes y objetivo. 
+
+### Comunicación con el backend desde vtApi.js
+
+Para conectar la nueva funcionalidad del frontend con el backend, se ha ampliado el 
+archivo vtApi.js. En este archivo se ha añadido la definición de la llamada: 
+manufacturingInfoBySplit.getAll, encargada de solicitar al backend la información de 
+rendimiento de un split concreto. 
+
+Esta llamada utiliza el método POST y consume el endpoint: 
+/clients/{clientId}/manufacturing-info/by-split. El cuerpo de la petición tiene la estructura 
+explicada anteriormente en el apartado de backend. 
+
+La ejecución final de la llamada se realiza mediante fetchApi, que utiliza axios para 
+enviar la petición HTTP.
+
+
 
