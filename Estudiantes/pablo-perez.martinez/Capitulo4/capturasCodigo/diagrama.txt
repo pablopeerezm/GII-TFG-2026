@@ -1,0 +1,47 @@
+@startuml
+
+participant "Frontend" as Front
+participant "vt-master-api\nManufacturingInfoController" as MC
+participant "vt-master-api\nManufacturingInfoServiceImpl" as MS
+participant "API\nManufacturingInfoController" as AC
+participant "API\nManufacturingInfoServiceV2Impl" as AS
+
+Front -> MC : POST /clients/{clientId}/manufacturing-info/by-split
+note right of Front
+Body: ManufacturingInfoBySplitToCalculateDto
+end note
+
+MC -> MS : calcBySplitId(clientId, ManufacturingInfoBySplitToCalculateDto)
+
+
+MS -> AC : POST /production/clients/{client-id}/manufacturing-info/by-split
+note right of MS
+Body: ManufacturingInfoBySplitToCalculateDto
+end note
+
+AC -> AS : getManufacturingIndexInfoBySplit(ManufacturingInfoBySplitToCalculateDto)
+
+
+
+
+AS -> AS : getManufacturingInfoOfSplit(\nassignmentSplit,\nscrappedReportedInProduction,fullMode,\nactivitiesOfSplit,indirectsList,downtimeIndirectsList,\noutputByMaterialsOfSplit,scrapsList,microstopsList,\nmaterialsOfRouteStep,workstationStops,\nworkstationStopRangeMap,cycleTime,\nmaterialsByExecution,defaultCycleTimeOee,\nexecutionsList,cavities)
+
+AS -> AS : getManufacturingInfoForSpeedCurve(activities, outputs)
+
+AS --> AC : ManufacturingIndexInfoBySplitDto
+
+AC --> MS : 200 OK\nManufacturingIndexInfoBySplitDto
+
+note right of MS
+Response: ManufacturingIndexInfoBySplitDto
+end note
+
+MS --> MC : ResponseObject<ManufacturingIndexInfoBySplitDto>
+
+MC --> Front : 200 OK\n
+
+note right of Front
+Response: ManufacturingIndexInfoBySplitDto
+end note
+
+@enduml
